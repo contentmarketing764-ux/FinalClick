@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FinalClick | AI Agentic Workflow Automation</title>
+    <title>FinalClick | AI Lead Management Systems</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -30,14 +30,9 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
-        @keyframes spin-slow {
-            to { transform: rotate(360deg); }
-        }
         
         .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
         .animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
-        .animate-pulse-slow { animation: pulse-slow 3s infinite; }
-        .animate-spin-slow { animation: spin-slow 3s linear infinite; }
         
         .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
@@ -49,10 +44,19 @@
             background: #475569; 
             border-radius: 3px;
         }
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+
+        /* Pipeline Animation Styles */
+        .pipeline-step {
+            transition: all 0.5s ease-in-out;
+            opacity: 0.4;
+            transform: translateX(0);
+            border-left: 4px solid transparent;
+        }
+        .pipeline-step.active {
+            opacity: 1;
+            transform: translateX(10px);
+            border-left: 4px solid #4f46e5; /* Indigo-600 */
+            background-color: #f8fafc;
         }
     </style>
     
@@ -89,8 +93,8 @@
             
             <!-- Desktop Links -->
             <div class="hidden md:flex items-center gap-8 text-sm font-bold text-slate-500">
-                <button onclick="document.getElementById('capabilities').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">Capabilities</button>
-                <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">Process</button>
+                <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">The System</button>
+                <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">Pain Points</button>
                 <button onclick="document.getElementById('results').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">Results</button>
                 <button 
                     onclick="window.open('https://cal.com', '_blank')"
@@ -109,8 +113,8 @@
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 right-0 bg-white border-b border-slate-200 p-6 flex-col gap-4 shadow-xl animate-fade-in">
-            <button onclick="document.getElementById('capabilities').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Capabilities</button>
-            <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Process</button>
+            <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">The System</button>
+            <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Pain Points</button>
             <button onclick="document.getElementById('results').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Results</button>
             <button onclick="window.open('https://cal.com', '_blank')" class="text-left py-3 text-indigo-600 font-bold flex items-center gap-2">
                 <i data-lucide="calendar" class="w-4 h-4"></i> Book a Call
@@ -136,16 +140,18 @@
                     Scale your revenue, not your <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">headcount.</span>
                 </h1>
                 
+                <!-- Updated Sub-headline -->
                 <p class="text-xl text-slate-500 font-medium max-w-lg mb-10 leading-relaxed">
-                    We build custom <span class="text-slate-900 font-bold">Lead Management Systems</span> and AI Agents that replace the manual work killing your growth.
+                    An end-to-end lead system that responds instantly and never drops a lead. 😉
                 </p>
 
+                <!-- Updated Hero Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4">
                     <button onclick="window.open('https://cal.com', '_blank')" class="px-8 py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-indigo-200">
-                        Book a Demo <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        Book a Call <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                     </button>
-                    <button onclick="document.getElementById('capabilities').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-white text-slate-700 border border-slate-200 hover:border-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white">
-                        Explore Use Cases
+                    <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-white text-slate-700 border border-slate-200 hover:border-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white">
+                        See the System
                     </button>
                 </div>
             </div>
@@ -158,7 +164,7 @@
                     
                     <!-- Floating Status -->
                     <div class="flex justify-between items-center text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 mb-4">
-                        <span>Processing Pipeline</span>
+                        <span>Lead Pipeline</span>
                         <span class="flex items-center gap-1 text-green-500"><div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> Live</span>
                     </div>
 
@@ -176,24 +182,47 @@
                 <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-indigo-200/50 rounded-full blur-[80px] -z-20 opacity-50 pointer-events-none"></div>
             </div>
         </div>
+    </section>
 
-        <!-- Tech Stack Ticker -->
-        <div class="mt-24 pt-10 border-t border-slate-100">
-            <p class="text-center text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-8">
+    <!-- NEW: "The System" Section (Animated Vertical Flow) -->
+    <section id="system-breakdown" class="py-20 px-4 md:px-8 lg:px-16 bg-white relative border-t border-slate-100">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-indigo-50 text-indigo-600 border-indigo-100">The Architecture</span>
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+                    A Complete Lead Management System
+                </h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    A vertical pipeline that converts strangers into meetings on autopilot.
+                </p>
+            </div>
+
+            <div class="relative" id="system-pipeline-list">
+                <!-- Connecting Line Base -->
+                <div class="absolute left-8 top-8 bottom-8 w-0.5 bg-slate-100 -z-10 md:left-1/2 md:-ml-0.5"></div>
+                <!-- Dynamic Content Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Ticker (Moved & Subtler) -->
+    <section class="py-10 border-t border-slate-100 bg-slate-50/50">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-6">
                 Orchestrating the intelligence of industry giants
             </p>
-            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-70 hover:opacity-100 transition-opacity duration-500">
-                <span class="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 cursor-default hover:scale-105 transition-transform">Google Antigravity</span>
-                <span class="text-2xl md:text-3xl font-black tracking-tighter text-blue-600 cursor-default hover:scale-105 transition-transform">Gemini</span>
-                <span class="text-2xl md:text-3xl font-black tracking-tighter text-slate-800 cursor-default hover:scale-105 transition-transform">OpenAI</span>
-                <span class="text-2xl md:text-3xl font-black tracking-tighter text-purple-600 cursor-default hover:scale-105 transition-transform">Make</span>
-                <span class="text-2xl md:text-3xl font-black tracking-tighter text-red-500 cursor-default hover:scale-105 transition-transform">n8n</span>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0">
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-slate-900 cursor-default">Google Antigravity</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-blue-600 cursor-default">Gemini</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-slate-800 cursor-default">OpenAI</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-purple-600 cursor-default">Make</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-red-500 cursor-default">n8n</span>
             </div>
         </div>
     </section>
 
     <!-- Blueprint Generator Section -->
-    <section id="blueprint" class="py-20 px-4 md:px-8 lg:px-16">
+    <section id="blueprint" class="py-20 px-4 md:px-8 lg:px-16 bg-slate-50">
         <div class="max-w-7xl mx-auto bg-slate-900 rounded-[2.5rem] p-8 md:p-16 text-white overflow-hidden relative border border-slate-800 shadow-2xl">
             <!-- Background Decor -->
             <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
@@ -202,16 +231,16 @@
                 <!-- Input Side -->
                 <div>
                     <h2 class="text-3xl md:text-5xl font-black mb-6">
-                        Blueprint your automation <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">instantly.</span>
+                        Blueprint your system <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">instantly.</span>
                     </h2>
                     <p class="text-slate-400 text-lg mb-8">
-                        Describe a boring manual task you do every day. Our Gemini-powered architect will design a workflow to kill it.
+                        Describe your current lead flow. Our Gemini-powered architect will design a fully automated conversion engine.
                     </p>
                     
                     <div class="bg-white/5 border border-white/10 rounded-2xl p-2 backdrop-blur-sm shadow-inner relative group focus-within:border-indigo-500/50 transition-colors">
                         <textarea
                             id="blueprint-input"
-                            placeholder="e.g. I get invoices in my email, download them, and manually type the amount into a Google Sheet..."
+                            placeholder="e.g. When a new lead comes from Facebook Ads, add them to HubSpot, send a WhatsApp message, and if they reply, book a meeting..."
                             class="w-full bg-transparent border-none text-white placeholder-slate-500 focus:ring-0 resize-none p-4 h-40 text-lg outline-none"
                         ></textarea>
                         <div class="flex justify-between items-center px-4 pb-2">
@@ -265,189 +294,173 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Centered Book CTA -->
-            <div class="relative z-10 mt-12 flex justify-center">
-                <button 
-                    onclick="window.open('https://cal.com', '_blank')"
-                    class="bg-white text-indigo-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white hover:scale-105 transition-all shadow-xl shadow-indigo-500/20 flex items-center gap-2 group"
-                >
-                    <i data-lucide="calendar" class="w-5 h-5 group-hover:-translate-y-0.5 transition-transform"></i> 
-                    Book a Meet
+    <!-- Pain Points (Why leads don't convert) - Updated Layout -->
+    <section id="problem" class="relative my-8 py-20 px-4 md:px-8 lg:px-16">
+        <div class="absolute inset-0 bg-slate-50/50 rounded-[3rem] -z-10 mx-4 md:mx-0"></div>
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-purple-50 text-purple-600 border-purple-100">Pain Points</span>
+            <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+                Why leads don't convert<br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">(even when demand exists)</span>
+            </h2>
+            <p class="text-xl text-slate-800 font-bold leading-relaxed mb-2">
+                It’s rarely a traffic problem. It’s a system problem.
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-4">
+            <!-- Signals List -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-red-200 transition-colors group">
+                    <div class="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-red-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="x-circle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Missed Ad Leads</h4>
+                        <p class="text-sm text-slate-500 font-medium">Money burned on clicks with no follow-up.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-orange-200 transition-colors group">
+                    <div class="w-10 h-10 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-orange-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="clock" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Slow Response</h4>
+                        <p class="text-sm text-slate-500 font-medium">Lead already gone to a competitor.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+                
+                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-blue-200 transition-colors group">
+                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-blue-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="user-x" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Manual Qualification</h4>
+                        <p class="text-sm text-slate-500 font-medium">Sales time wasted on bad fit leads.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+
+                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-purple-200 transition-colors group">
+                    <div class="w-10 h-10 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-purple-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="calendar-off" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">No-Show Appointments</h4>
+                        <p class="text-sm text-slate-500 font-medium">Empty calendars and lost momentum.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+            </div>
+            
+            <!-- Final big card -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-slate-300 transition-colors group">
+                <div class="w-10 h-10 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center shrink-0 group-hover:bg-slate-200 group-hover:scale-110 transition-all">
+                    <i data-lucide="scatter-chart" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900">Scattered Data</h4>
+                    <p class="text-sm text-slate-500 font-medium">Leads fall through cracks between tools.</p>
+                </div>
+                <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+            </div>
+            
+            <div class="text-center pt-8">
+                 <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'})" class="text-indigo-600 font-bold hover:text-indigo-800 transition-colors flex items-center justify-center gap-2 group">
+                    See how the system fixes this <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
                 </button>
             </div>
         </div>
     </section>
 
-    <!-- Department Switcher -->
-    <section class="py-16 px-4 md:px-8 lg:px-16 bg-slate-50/50">
-        <div class="max-w-7xl mx-auto bg-white rounded-[2.5rem] shadow-2xl border border-slate-100 overflow-hidden relative">
-            
-            <!-- Tabs -->
-            <div class="flex flex-wrap border-b border-slate-100 bg-slate-50/50" id="dept-tabs">
-                <!-- JS will generate tabs -->
-            </div>
-            
-            <div class="p-8 md:p-12 grid lg:grid-cols-2 gap-16 items-center min-h-[500px]">
-                <!-- Left: Task List -->
-                <div id="dept-content" class="animate-slide-up">
-                    <!-- JS Content -->
-                </div>
-
-                <!-- Right: Terminal -->
-                <div class="h-[450px] w-full relative">
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-indigo-500/20 rounded-full blur-[60px] -z-10"></div>
-                    
-                    <div class="w-full h-full bg-slate-900 rounded-2xl p-6 flex flex-col font-mono text-xs md:text-sm text-slate-300 shadow-2xl relative overflow-hidden group border border-slate-800">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none"></div>
-                        
-                        <div class="flex items-center justify-between border-b border-slate-700 pb-4 mb-4 z-10 relative">
-                            <div class="flex items-center gap-3">
-                                <div class="flex gap-1.5">
-                                    <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
-                                    <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
-                                    <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
-                                </div>
-                                <span class="ml-2 font-bold text-slate-100 flex items-center gap-2">
-                                    <i data-lucide="bot" class="w-3.5 h-3.5 text-indigo-400"></i> Agent_Terminal
-                                </span>
-                            </div>
-                            <div class="px-2 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20 text-[10px] uppercase tracking-wider font-bold animate-pulse">Online</div>
-                        </div>
-
-                        <div id="terminal-logs" class="flex-1 overflow-y-auto space-y-3 relative z-10 custom-scrollbar">
-                            <div class="flex gap-3 items-start opacity-50">
-                                <span class="text-indigo-500">$</span>
-                                <span id="terminal-command">system_ready</span>
-                            </div>
-                            <!-- JS logs -->
-                        </div>
-
-                        <div class="mt-4 pt-4 border-t border-slate-700 flex gap-2 relative z-10 opacity-50">
-                            <span class="text-indigo-500 animate-pulse">_</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Success Stats -->
+    <section id="results" class="bg-slate-900 rounded-[3rem] my-8 mx-2 md:mx-6 text-white py-20 relative overflow-hidden">
+        <!-- Abstract Pattern -->
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div class="relative z-10 grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
+           <div class="p-4">
+             <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-2">30+</div>
+             <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Hours Saved / Week</p>
+           </div>
+           <div class="p-4">
+             <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-2">0%</div>
+             <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Error Rate</p>
+           </div>
+           <div class="p-4">
+             <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-2">10x</div>
+             <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Faster Response</p>
+           </div>
         </div>
     </section>
 
-    <!-- The Problem (Bottleneck) -->
-    <section id="problem" class="relative my-8 py-16 px-4 md:px-8 lg:px-16">
-        <div class="absolute inset-0 bg-slate-50/50 rounded-[3rem] -z-10 mx-4 md:mx-0"></div>
-        <div class="text-center max-w-3xl mx-auto mb-16">
-            <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-purple-50 text-purple-600 border-purple-100">The Friction Point</span>
-            <h2 class="text-4xl lg:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-                If you're typing it twice,<br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">you're wasting time.</span>
-            </h2>
-            <p class="text-lg text-slate-600 leading-relaxed">
-                Every minute your team spends copying data, scheduling meetings, or organizing files is a minute stolen from growth.
-            </p>
+    <!-- Testimonials -->
+    <section>
+        <div class="text-center mb-12">
+           <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-indigo-50 text-indigo-600 border-indigo-100">Testimonials</span>
+           <h2 class="text-4xl font-black text-slate-900">Operators trust FinalClick</h2>
         </div>
-
-        <div class="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-            <!-- Problem 1 -->
-            <div class="group relative p-8 rounded-3xl bg-white border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden hover:-translate-y-2 transition-all duration-500 ease-out">
-                <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-blue-500 to-indigo-600 transform origin-left transition-transform duration-700 ease-out scale-x-0 group-hover:scale-x-100"></div>
-                <div class="relative z-10 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg bg-gradient-to-br from-blue-500 to-indigo-600 group-hover:scale-110 transition-transform">
-                            <i data-lucide="workflow" class="w-7 h-7"></i>
-                        </div>
-                        <div class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-500 group-hover:text-indigo-600 transition-colors">40% Time Lost</div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3 group-hover:text-indigo-900">Fragmented Systems</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium mb-8">Your CRM doesn't talk to your accounting software. Your inbox is a silo.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity">
-                        <span class="text-xs font-bold text-slate-400 uppercase">Solution</span>
-                        <div class="flex items-center gap-2 text-sm font-bold text-indigo-600">Unified Pipeline <i data-lucide="check-circle" class="w-4 h-4"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Problem 2 -->
-            <div class="group relative p-8 rounded-3xl bg-white border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden hover:-translate-y-2 transition-all duration-500 ease-out">
-                <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-purple-500 to-pink-600 transform origin-left transition-transform duration-700 ease-out scale-x-0 group-hover:scale-x-100"></div>
-                <div class="relative z-10 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg bg-gradient-to-br from-purple-500 to-pink-600 group-hover:scale-110 transition-transform">
-                            <i data-lucide="users" class="w-7 h-7"></i>
-                        </div>
-                        <div class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-500 group-hover:text-indigo-600 transition-colors">24h+ Delays</div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3 group-hover:text-indigo-900">Human Bottlenecks</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium mb-8">People get tired. People miss details. AI agents run 24/7 with 100% consistency.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity">
-                        <span class="text-xs font-bold text-slate-400 uppercase">Solution</span>
-                        <div class="flex items-center gap-2 text-sm font-bold text-indigo-600">Autonomous Agents <i data-lucide="check-circle" class="w-4 h-4"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Problem 3 -->
-            <div class="group relative p-8 rounded-3xl bg-white border border-slate-100 shadow-xl shadow-slate-200/50 overflow-hidden hover:-translate-y-2 transition-all duration-500 ease-out">
-                <div class="absolute top-0 left-0 h-1.5 w-full bg-gradient-to-r from-orange-500 to-red-600 transform origin-left transition-transform duration-700 ease-out scale-x-0 group-hover:scale-x-100"></div>
-                <div class="relative z-10 flex flex-col h-full">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg bg-gradient-to-br from-orange-500 to-red-600 group-hover:scale-110 transition-transform">
-                            <i data-lucide="clock" class="w-7 h-7"></i>
-                        </div>
-                        <div class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-500 group-hover:text-indigo-600 transition-colors">Missed Deals</div>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-3 group-hover:text-indigo-900">Slow Velocity</h3>
-                    <p class="text-slate-600 leading-relaxed text-sm font-medium mb-8">Waiting for 'business hours' to move a project forward? Your automation runs while you sleep.</p>
-                    <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between opacity-50 group-hover:opacity-100 transition-opacity">
-                        <span class="text-xs font-bold text-slate-400 uppercase">Solution</span>
-                        <div class="flex items-center gap-2 text-sm font-bold text-indigo-600">Instant Execution <i data-lucide="check-circle" class="w-4 h-4"></i></div>
-                    </div>
-                </div>
-            </div>
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
+           <div class="p-8 bg-white border border-slate-100 shadow-lg shadow-slate-100 rounded-2xl relative flex flex-col">
+             <div class="text-indigo-200 absolute top-6 right-8 opacity-50"><i data-lucide="message-square" class="w-12 h-12"></i></div>
+             <p class="text-lg text-slate-700 font-medium mb-8 relative z-10 flex-1">"I didn't realize how much time I spent just moving files around. FinalClick built an agent that handles our entire invoicing process. It feels like magic."</p>
+             <div class="flex items-center gap-4">
+               <img 
+                 src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100&h=100" 
+                 alt="Alex Chen" 
+                 class="w-12 h-12 rounded-full object-cover border-2 border-indigo-100"
+               />
+               <div>
+                 <div class="font-bold text-slate-900">Alex Chen</div>
+                 <div class="text-xs text-slate-500 font-bold uppercase">COO, TechFlow</div>
+               </div>
+             </div>
+           </div>
+           <div class="p-8 bg-white border border-slate-100 shadow-lg shadow-slate-100 rounded-2xl relative flex flex-col">
+             <div class="text-indigo-200 absolute top-6 right-8 opacity-50"><i data-lucide="message-square" class="w-12 h-12"></i></div>
+             <p class="text-lg text-slate-700 font-medium mb-8 relative z-10 flex-1">"We used to hire VAs for lead qualification. FinalClick's AI agent does it better, faster, and 24/7. It's an absolute game changer for our margins."</p>
+             <div class="flex items-center gap-4">
+               <img 
+                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100" 
+                 alt="Sarah Miller" 
+                 class="w-12 h-12 rounded-full object-cover border-2 border-indigo-100"
+               />
+               <div>
+                 <div class="font-bold text-slate-900">Sarah Miller</div>
+                 <div class="text-xs text-slate-500 font-bold uppercase">Founder, ScaleUp</div>
+               </div>
+             </div>
+           </div>
         </div>
     </section>
 
-    <!-- Services Capabilities -->
-    <section id="capabilities" class="py-16 px-4 md:px-8 lg:px-16">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-blue-50 text-blue-600 border-blue-100">Beyond Sales</span>
-                    <h2 class="text-4xl font-black text-slate-900">Whatever the task,<br/>we can engineer an Agent.</h2>
-                </div>
-                <p class="text-slate-500 max-w-sm font-medium">
-                    From complex document analysis to simple notifications. If it follows a logic path, we can automate it.
-                </p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-6">
-                <!-- Card 1 -->
-                <div class="bg-gradient-to-br from-indigo-900 to-slate-900 p-10 rounded-3xl text-white relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 bg-white/10 backdrop-blur rounded-xl flex items-center justify-center mb-6">
-                            <i data-lucide="file-text" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-2">Document Intelligence</h3>
-                        <p class="text-indigo-200 mb-6">Agents that read PDFs, contracts, and invoices. They extract key dates and amounts.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/10">Contract Review</span>
-                            <span class="px-3 py-1 bg-white/10 rounded-full text-xs font-bold border border-white/10">Invoice Processing</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-white border border-slate-200 p-10 rounded-3xl relative overflow-hidden group hover:border-indigo-300 transition-colors">
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-6">
-                        <i data-lucide="headphones" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-2">Customer & Internal Support</h3>
-                    <p class="text-slate-600 mb-6">Triaging support tickets and answering employee FAQs about benefits instantly.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-100">Ticket Triage</span>
-                        <span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-bold border border-emerald-100">Onboarding Q&A</span>
-                    </div>
-                </div>
-            </div>
+    <!-- Closing CTA Section -->
+    <section id="contact" class="pb-32 pt-20">
+        <div class="relative rounded-[2.5rem] bg-slate-900 overflow-hidden px-8 py-20 md:p-24 text-center shadow-2xl shadow-indigo-200 mx-4 md:mx-8">
+           <!-- Decorative Gradients -->
+           <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/30 rounded-full blur-[100px] pointer-events-none"></div>
+           
+           <div class="relative z-10 max-w-3xl mx-auto space-y-8">
+             <h2 class="text-4xl md:text-6xl font-black text-white tracking-tight">
+               Stop losing leads to manual chaos.
+             </h2>
+             <p class="text-xl text-indigo-100/80 font-medium">
+               Book a call to review your current lead flow.
+             </p>
+             <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+               <button onclick="window.open('https://cal.com', '_blank')" class="px-10 py-5 bg-white text-indigo-900 rounded-xl font-bold text-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2">
+                 Book a Call <i data-lucide="arrow-right" class="w-5 h-5"></i>
+               </button>
+             </div>
+             <p class="text-sm text-indigo-400 font-bold tracking-wide uppercase pt-6">
+               100% Custom Built • No Generic Templates
+             </p>
+           </div>
         </div>
     </section>
 
@@ -462,7 +475,7 @@
                         </div>
                         <span class="font-black text-2xl tracking-tight">FinalClick</span>
                     </div>
-                    <p class="text-sm leading-relaxed">We engineer custom AI Agents that replace manual operations, giving founders their time back.</p>
+                    <p class="text-sm leading-relaxed">We engineer custom AI Lead Management Systems that turn traffic into revenue.</p>
                     <div class="flex gap-4">
                         <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i data-lucide="twitter" class="w-4 h-4"></i></a>
                         <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
@@ -470,20 +483,18 @@
                     </div>
                 </div>
                 
-                <div>
-                    <h4 class="text-white font-bold mb-6">Services</h4>
+                <div class="lg:col-span-1">
+                    <h4 class="text-white font-bold mb-6">Our Solutions</h4>
                     <ul class="space-y-4 text-sm">
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Lead Nurturing</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Ops Automation</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Support Agents</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Workflow Audits</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">CRM Integrations</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Outbound Sales AI</a></li>
-                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Data Cleaning</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Lead Capture & Routing</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">AI Lead Qualification</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Automated Follow-Ups</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Appointment Booking</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">CRM & Pipeline Setup</a></li>
                     </ul>
                 </div>
 
-                <div>
+                <div class="lg:col-span-1">
                     <h4 class="text-white font-bold mb-6">Company</h4>
                     <ul class="space-y-4 text-sm">
                         <li><a href="#" class="hover:text-indigo-400 transition-colors">About Us</a></li>
@@ -493,7 +504,7 @@
                     </ul>
                 </div>
 
-                <div>
+                <div class="lg:col-span-1">
                     <h4 class="text-white font-bold mb-6">Ready to scale?</h4>
                     <p class="text-xs mb-4">Get a free breakdown of your manual tasks.</p>
                     <button onclick="window.open('https://cal.com', '_blank')" class="w-full py-3 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-500 transition-all flex items-center justify-center gap-2">
@@ -528,10 +539,10 @@
         const pipelineContainer = document.getElementById('hero-pipeline-container');
         const pipelineProgress = document.getElementById('pipeline-progress');
         const nodes = [
-            { label: "Data Input", icon: "file-text", color: "bg-blue-500" },
-            { label: "AI Agent", icon: "bot", color: "bg-purple-500" },
-            { label: "Logic", icon: "workflow", color: "bg-indigo-500" },
-            { label: "Done", icon: "check-circle", color: "bg-green-500" }
+            { label: "New Lead", icon: "user-plus", color: "bg-blue-500" },
+            { label: "AI Qualify", icon: "bot", color: "bg-purple-500" },
+            { label: "Auto Follow-up", icon: "message-circle", color: "bg-indigo-500" },
+            { label: "Booked", icon: "calendar-check", color: "bg-green-500" }
         ];
         
         let currentPipelineStep = 0;
@@ -614,6 +625,54 @@
             });
         }, 2000);
 
+        // --- NEW SYSTEM PIPELINE ANIMATION LOGIC ---
+        const systemSteps = [
+            { title: "Lead Captured", icon: "magnet", desc: "Forms, Ads, DMs" },
+            { title: "Instant Routing", icon: "route", desc: "CRM Injection" },
+            { title: "AI Qualification", icon: "filter", desc: "Score & Filter" },
+            { title: "Omnichannel Follow-up", icon: "message-circle", desc: "Email, SMS, WhatsApp" },
+            { title: "Booked Meeting", icon: "calendar-check", desc: "Calendar Sync" }
+        ];
+
+        const systemPipelineContainer = document.getElementById('system-pipeline-list');
+        
+        systemSteps.forEach((step, i) => {
+            const stepDiv = document.createElement('div');
+            stepDiv.id = `sys-step-${i}`;
+            stepDiv.className = "pipeline-step relative flex items-center gap-6 p-4 rounded-xl mb-6 md:ml-12 md:max-w-2xl mx-auto bg-white border border-slate-50 shadow-sm";
+            stepDiv.innerHTML = `
+                <div class="relative z-10 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 transition-colors duration-500" id="sys-icon-${i}">
+                    <i data-lucide="${step.icon}" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-900 transition-colors duration-500" id="sys-title-${i}">${step.title}</h3>
+                    <p class="text-sm text-slate-500">${step.desc}</p>
+                </div>
+            `;
+            systemPipelineContainer.appendChild(stepDiv);
+        });
+        lucide.createIcons();
+
+        let currentSystemStep = 0;
+        
+        setInterval(() => {
+            systemSteps.forEach((_, i) => {
+                const stepEl = document.getElementById(`sys-step-${i}`);
+                const iconEl = document.getElementById(`sys-icon-${i}`);
+                const titleEl = document.getElementById(`sys-title-${i}`);
+
+                if (i === currentSystemStep) {
+                    stepEl.classList.add('active', 'border-indigo-100', 'shadow-md');
+                    iconEl.className = "relative z-10 w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-indigo-200 transition-all duration-500 transform scale-110";
+                    titleEl.className = "font-bold text-lg text-indigo-700 transition-colors duration-500";
+                } else {
+                    stepEl.classList.remove('active', 'border-indigo-100', 'shadow-md');
+                    iconEl.className = "relative z-10 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 transition-all duration-500";
+                    titleEl.className = "font-bold text-lg text-slate-900 transition-colors duration-500";
+                }
+            });
+            currentSystemStep = (currentSystemStep + 1) % systemSteps.length;
+        }, 2000);
 
         // --- Blueprint Generator Logic ---
         async function generateBlueprint() {
@@ -637,18 +696,16 @@
             errorText.classList.add('hidden');
 
             const apiKey = ""; // You must add your API key if you want this to work in the raw HTML file
-            // Note: In a real deployment, use a backend proxy to hide the key.
-            // For this HTML export, I will simulate the response to ensure it works beautifully without key hassle.
             
             setTimeout(() => {
                 // Simulating Success Response
                 const mockResult = {
                     timeSaved: "8-12 Hours/Week",
                     steps: [
-                        { tool: "Trigger", action: "Input Detected", icon: "file-text" },
-                        { tool: "AI Agent", action: "Analyze & Process", icon: "bot" },
-                        { tool: "Automation", action: "Execute Workflow", icon: "workflow" },
-                        { tool: "Output", action: "Finalize & Notify", icon: "check-circle" }
+                        { tool: "Facebook Ad", action: "Lead Captured", icon: "facebook" },
+                        { tool: "AI Agent", action: "Qualify & Score", icon: "bot" },
+                        { tool: "WhatsApp", action: "Instant Follow-up", icon: "message-circle" },
+                        { tool: "CRM", action: "Booked & Synced", icon: "check-circle" }
                     ]
                 };
 
@@ -689,123 +746,8 @@
                 btn.disabled = false;
                 btnText.textContent = "Generate Blueprint";
 
-            }, 1500); // 1.5s simulated loading
+            }, 1500); 
         }
-
-
-        // --- Department Switcher Logic ---
-        const departments = {
-            Ops: { title: "Operations", icon: "activity", color: "text-blue-600", tasks: [{name: "Inventory Sync", steps: ["Scanning inventory...", "Checking levels...", "Creating PO...", "Notifying Manager"]}, {name: "KPI Reporting", steps: ["Pulling data...", "Aggregating...", "Generating PDF...", "Slacking Team"]}] },
-            Sales: { title: "Sales", icon: "trending-up", color: "text-indigo-600", tasks: [{name: "Inbound Qualifier", steps: ["Lead detected...", "Enriching data...", "Scoring...", "Booking Meeting"]}, {name: "Contract Draft", steps: ["Reading notes...", "Drafting terms...", "Creating PDF...", "Sending Docusign"]}] },
-            HR: { title: "HR", icon: "users", color: "text-rose-600", tasks: [{name: "Resume Screen", steps: ["Parsing PDF...", "Matching keywords...", "Ranking...", "Emailing candidate"]}, {name: "Onboarding", steps: ["Creating email...", " inviting to Slack...", "Ordering hardware...", "Scheduling welcome"]}] },
-            Finance: { title: "Finance", icon: "credit-card", color: "text-emerald-600", tasks: [{name: "Receipt Match", steps: ["Scanning inbox...", "Matching bank feed...", "Categorizing...", "Syncing Xero"]}, {name: "Invoice Chaser", steps: ["Checking aging...", "Drafting email...", "Sending SMS...", "Escalating"]}] }
-        };
-
-        let activeDept = 'Ops';
-        let activeTaskIndex = 0;
-        let terminalInterval;
-
-        function renderDeptTabs() {
-            const container = document.getElementById('dept-tabs');
-            container.innerHTML = Object.keys(departments).map(key => {
-                const isActive = activeDept === key;
-                return `
-                    <button onclick="switchDept('${key}')" class="flex-1 py-6 px-4 text-sm md:text-base font-bold flex items-center justify-center gap-2 transition-all relative ${isActive ? 'text-slate-900 bg-white' : 'text-slate-400 hover:text-slate-600 hover:bg-slate-100/50'}">
-                        ${isActive ? '<div class="absolute top-0 left-0 w-full h-1 bg-indigo-600 rounded-b-full"></div>' : ''}
-                        <i data-lucide="${departments[key].icon}" class="w-4 h-4 ${isActive ? departments[key].color : 'grayscale opacity-50'}"></i>
-                        ${departments[key].title}
-                    </button>
-                `;
-            }).join('');
-            lucide.createIcons();
-        }
-
-        function renderDeptContent() {
-            const container = document.getElementById('dept-content');
-            const dept = departments[activeDept];
-            container.innerHTML = `
-                <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-indigo-50 text-indigo-600 border-indigo-100">${dept.title}</span>
-                <h3 class="text-3xl lg:text-4xl font-black text-slate-900 mb-6 leading-tight">Stop copying data between spreadsheets. We automate the glue work.</h3>
-                <div class="space-y-3">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 ml-1">Select a task to run:</p>
-                    ${dept.tasks.map((task, i) => `
-                        <button onclick="runTask(${i})" class="w-full text-left flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 group ${activeTaskIndex === i ? 'bg-slate-900 border-slate-900 text-white shadow-lg scale-[1.02]' : 'bg-white border-slate-100 text-slate-600 hover:border-indigo-200 hover:bg-slate-50'}">
-                            <div class="w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${activeTaskIndex === i ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-400'}">
-                                <i data-lucide="${activeTaskIndex === i ? 'loader-2' : 'zap'}" class="w-4 h-4 ${activeTaskIndex === i ? 'animate-spin' : ''}"></i>
-                            </div>
-                            <div class="flex-1">
-                                <span class="font-bold block ${activeTaskIndex === i ? 'text-white' : 'text-slate-700'}">${task.name}</span>
-                                ${activeTaskIndex === i ? '<span class="text-[10px] text-indigo-300 font-mono animate-pulse">Running Simulation...</span>' : ''}
-                            </div>
-                            ${activeTaskIndex === i ? '<i data-lucide="arrow-right" class="w-4 h-4 text-indigo-400"></i>' : ''}
-                        </button>
-                    `).join('')}
-                </div>
-            `;
-            lucide.createIcons();
-        }
-
-        function runTerminal() {
-            const logsContainer = document.getElementById('terminal-logs');
-            const command = document.getElementById('terminal-command');
-            const dept = departments[activeDept];
-            const task = dept.tasks[activeTaskIndex];
-            
-            command.innerText = `run workflow: "${task.name}"`;
-            logsContainer.innerHTML = `
-                <div class="flex gap-3 items-start opacity-50">
-                    <span class="text-indigo-500">$</span>
-                    <span>run workflow: "${task.name}"</span>
-                </div>
-            `;
-
-            let step = 0;
-            clearInterval(terminalInterval);
-            
-            terminalInterval = setInterval(() => {
-                if (step >= task.steps.length) {
-                    clearInterval(terminalInterval);
-                    logsContainer.innerHTML += `
-                        <div class="pt-4 border-t border-slate-800/50 mt-4 animate-fade-in">
-                             <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-3 flex items-center justify-between">
-                               <span class="text-green-400 font-bold flex items-center gap-2">
-                                 <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Task Complete
-                               </span>
-                               <span class="text-green-600/70 text-[10px]">0.4s exec time</span>
-                             </div>
-                        </div>
-                    `;
-                    lucide.createIcons();
-                    return;
-                }
-                
-                const logDiv = document.createElement('div');
-                logDiv.className = "flex gap-3 items-center animate-slide-up";
-                logDiv.innerHTML = `<i data-lucide="check-circle" class="w-3.5 h-3.5 text-green-500 shrink-0"></i> <span class="text-slate-100">${task.steps[step]}</span>`;
-                logsContainer.appendChild(logDiv);
-                lucide.createIcons();
-                step++;
-            }, 800);
-        }
-
-        function switchDept(key) {
-            activeDept = key;
-            activeTaskIndex = 0;
-            renderDeptTabs();
-            renderDeptContent();
-            runTerminal();
-        }
-
-        function runTask(index) {
-            activeTaskIndex = index;
-            renderDeptContent();
-            runTerminal();
-        }
-
-        // Initialize Department Switcher
-        renderDeptTabs();
-        renderDeptContent();
-        runTerminal();
 
     </script>
 </body>
