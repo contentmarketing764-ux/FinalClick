@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinalClick | AI Lead Management Systems</title>    
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom Animations */
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slide-up {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+        .animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569; 
+            border-radius: 3px;
+        }
+
+        /* Enhanced Pipeline Styles */
+        .pipeline-step {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.4;
+            transform: scale(0.98) translateX(0);
+            border: 1px solid transparent;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .pipeline-step.active {
+            opacity: 1;
+            transform: scale(1) translateX(10px);
+            border-color: #e0e7ff; /* indigo-100 */
+            background-color: #ffffff;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+        }
+
+        /* Icon Transition */
+        .pipeline-step .step-icon {
+            transition: all 0.4s ease;
+            background-color: #f1f5f9; /* slate-100 */
+            color: #94a3b8; /* slate-400 */
+        }
+        
+        .pipeline-step.active .step-icon {
+            background-color: #4f46e5; /* indigo-600 */
+            color: #ffffff;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Title Transition */
+        .pipeline-step .step-title {
+            transition: color 0.3s ease;
+        }
+        .pipeline-step.active .step-title {
+            color: #4338ca; /* indigo-700 */
+        }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            850: '#151e2e',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900 selection:bg-indigo-100 selection:text-indigo-900 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="relative w-8 h-8 flex items-center justify-center bg-slate-900 rounded-lg group-hover:rotate-12 transition-transform duration-300">
+                    <i data-lucide="zap" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                    <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-indigo-500 rounded-full border-2 border-white"></div>
+                </div>
+                <span class="font-black text-2xl tracking-tight text-slate-900">
+                    Final<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Click</span>
+                </span>
+            </div>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-bold text-slate-500">
+                <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">The System</button>
+                <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">Pain Points</button>
+                <button onclick="document.getElementById('results').scrollIntoView({behavior: 'smooth'})" class="hover:text-indigo-600 transition-colors">Results</button>
+                <button onclick="location.href='https://finalclickv1adsgen-production.up.railway.app'" class="hover:text-indigo-600 transition-colors">Ad Generator</button>
+                <a href="/landing-page" class="hover:text-indigo-600 transition-colors">Landing Page</a>
+                <button
+                    onclick="window.open('https://cal.com', '_blank')"
+                    class="bg-slate-900 text-white px-5 py-2.5 rounded-lg font-bold hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-200 transition-all transform hover:-translate-y-0.5 flex items-center gap-2"
+                >
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    Book a Call
+                </button>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-slate-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-20 left-0 right-0 bg-white border-b border-slate-200 p-6 flex-col gap-4 shadow-xl animate-fade-in">
+            <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">The System</button>
+            <button onclick="document.getElementById('problem').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Pain Points</button>
+            <button onclick="document.getElementById('results').scrollIntoView({behavior: 'smooth'}); toggleMenu()" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Results</button>
+            <a href="/landing-page" class="text-left py-3 font-semibold text-slate-600 border-b border-slate-50">Landing Page</a>
+            <button onclick="window.open('https://cal.com', '_blank')" class="text-left py-3 text-indigo-600 font-bold flex items-center gap-2">
+                <i data-lucide="calendar" class="w-4 h-4"></i> Book a Call
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-12 lg:pt-48 lg:pb-32 overflow-visible px-4 md:px-8 lg:px-16">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            <!-- Hero Copy -->
+            <div class="max-w-2xl animate-slide-up" style="animation-delay: 0.1s;">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold mb-8">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                    </span>
+                    Accepting New Clients for Q1
+                </div>
+                
+                <h1 class="text-5xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.1] mb-6">
+                    Scale your revenue, not your <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">headcount.</span>
+                </h1>
+                
+                <!-- Updated Sub-headline -->
+                <p class="text-xl text-slate-500 font-medium max-w-lg mb-10 leading-relaxed">
+                    We build lead management systems that capture, qualify, follow up, and book leads automatically — without manual work or missed opportunities.
+                </p>
+
+                <!-- Updated Hero Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button onclick="window.open('https://cal.com', '_blank')" class="px-8 py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-indigo-200">
+                        Book a Free Call <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                    <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'})" class="px-8 py-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg hover:shadow-xl hover:-translate-y-1 active:scale-95 bg-white text-slate-700 border border-slate-200 hover:border-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white">
+                        See the System
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hero Visualizer (Interactive Architect) -->
+            <div class="relative animate-slide-up" style="animation-delay: 0.3s;">
+                <div class="relative w-full max-w-md mx-auto min-h-[500px] bg-white rounded-2xl shadow-2xl shadow-indigo-100 border border-slate-100 p-8 flex flex-col justify-between overflow-hidden">
+                    <!-- Background Grid -->
+                    <div class="absolute inset-0 bg-[linear-gradient(#f1f5f9_1px,transparent_1px),linear-gradient(90deg,#f1f5f9_1px,transparent_1px)] bg-[size:20px_20px] -z-10"></div>
+                    
+                    <!-- Floating Status -->
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-2 mb-4">
+                        <span>Lead Pipeline</span>
+                        <span class="flex items-center gap-1 text-green-500"><div class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div> Live</span>
+                    </div>
+
+                    <div class="flex-1 flex flex-col justify-center relative" id="hero-pipeline-container">
+                        <!-- Connection Line -->
+                        <div class="absolute left-6 top-8 bottom-8 w-0.5 bg-slate-100 -z-10">
+                            <div id="pipeline-progress" class="absolute top-0 w-full bg-indigo-500 transition-all duration-500 ease-in-out h-0"></div>
+                        </div>
+                        
+                        <!-- JS will inject nodes here -->
+                    </div>
+                </div>
+                
+                <!-- Decorative Blur -->
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-indigo-200/50 rounded-full blur-[80px] -z-20 opacity-50 pointer-events-none"></div>
+            </div>
+        </div>
+
+        <!-- Tech Stack Ticker -->
+        <div class="mt-24 pt-10 border-t border-slate-100">
+            <p class="text-center text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-8">
+                Orchestrating the intelligence of industry giants
+            </p>
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 opacity-70 hover:opacity-100 transition-opacity duration-500">
+                <span class="text-2xl md:text-3xl font-black tracking-tighter text-slate-900 cursor-default hover:scale-105 transition-transform">Google Antigravity</span>
+                <span class="text-2xl md:text-3xl font-black tracking-tighter text-blue-600 cursor-default hover:scale-105 transition-transform">Gemini</span>
+                <span class="text-2xl md:text-3xl font-black tracking-tighter text-slate-800 cursor-default hover:scale-105 transition-transform">OpenAI</span>
+                <span class="text-2xl md:text-3xl font-black tracking-tighter text-purple-600 cursor-default hover:scale-105 transition-transform">Make</span>
+                <span class="text-2xl md:text-3xl font-black tracking-tighter text-red-500 cursor-default hover:scale-105 transition-transform">n8n</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW: "The System" Section (Animated Vertical Flow) -->
+    <section id="system-breakdown" class="py-20 px-4 md:px-8 lg:px-16 bg-white relative border-t border-slate-100">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-indigo-50 text-indigo-600 border-indigo-100">The Architecture</span>
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+                    A Complete Lead Management System
+                </h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    A vertical pipeline that converts strangers into meetings on autopilot. Hover to inspect each step.
+                </p>
+            </div>
+
+            <div class="relative" id="system-pipeline-list">
+                <!-- Base Gray Line -->
+                <div class="absolute left-8 top-8 bottom-8 w-0.5 bg-slate-100 -z-10 md:left-1/2 md:-ml-0.5"></div>
+                <!-- Dynamic Content Injected via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Ticker (Moved & Subtler) -->
+    <section class="py-10 border-t border-slate-100 bg-slate-50/50">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-6">
+                Orchestrating the intelligence of industry giants
+            </p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 hover:opacity-100 transition-opacity duration-500 grayscale hover:grayscale-0">
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-slate-900 cursor-default">Google Antigravity</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-blue-600 cursor-default">Gemini</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-slate-800 cursor-default">OpenAI</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-purple-600 cursor-default">Make</span>
+                <span class="text-xl md:text-2xl font-black tracking-tighter text-red-500 cursor-default">n8n</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blueprint Generator Section -->
+    <section id="blueprint" class="py-20 px-4 md:px-8 lg:px-16 bg-slate-50">
+        <div class="max-w-7xl mx-auto bg-slate-900 rounded-[2.5rem] p-8 md:p-16 text-white overflow-hidden relative border border-slate-800 shadow-2xl">
+            <!-- Background Decor -->
+            <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            
+            <div class="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Input Side -->
+                <div>
+                    <h2 class="text-3xl md:text-5xl font-black mb-6">
+                        Blueprint your system <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">instantly.</span>
+                    </h2>
+                    <p class="text-slate-400 text-lg mb-8">
+                        Describe how leads come in today. We’ll turn the messy manual work into an automated system.
+                    </p>
+                    
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-2 backdrop-blur-sm shadow-inner relative group focus-within:border-indigo-500/50 transition-colors">
+                        <textarea
+                            id="blueprint-input"
+                            placeholder="e.g. When a new lead comes from Facebook Ads, add them to HubSpot, send a WhatsApp message, and if they reply, book a meeting..."
+                            class="w-full bg-transparent border-none text-white placeholder-slate-500 focus:ring-0 resize-none p-4 h-40 text-lg outline-none"
+                        ></textarea>
+                        <div class="flex justify-between items-center px-4 pb-2">
+                            <span class="text-xs text-slate-500 font-mono flex items-center gap-1">
+                                <i data-lucide="sparkles" class="w-3 h-3 text-purple-400"></i> Powered by Gemini 2.5
+                            </span>
+                            <button 
+                                id="blueprint-btn"
+                                onclick="generateBlueprint()"
+                                class="bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white px-6 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 shadow-lg hover:shadow-indigo-500/25"
+                            >
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                <span id="blueprint-btn-text">Generate Blueprint</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p id="blueprint-error" class="text-red-400 mt-4 text-sm hidden"></p>
+                </div>
+
+                <!-- Visualization Side -->
+                <div id="blueprint-visualizer" class="relative h-full min-h-[600px] bg-slate-950 rounded-3xl border border-slate-800 p-8 flex flex-col items-center justify-center overflow-hidden shadow-inner">
+                    <!-- Grid Background -->
+                    <div class="absolute inset-0 bg-[linear-gradient(#ffffff05_1px,transparent_1px),linear-gradient(90deg,#ffffff05_1px,transparent_1px)] bg-[size:30px_30px]"></div>
+                    
+                    <!-- Empty State -->
+                    <div id="blueprint-empty" class="text-center z-10 flex flex-col items-center">
+                        <div class="relative w-64 h-64 mb-6 group cursor-pointer">
+                            <div class="absolute inset-0 bg-indigo-500/20 blur-[60px] rounded-full group-hover:bg-indigo-500/30 transition-all duration-700"></div>
+                            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=600" alt="AI Blueprint" class="relative w-full h-full object-contain drop-shadow-2xl opacity-90 group-hover:scale-105 transition-transform duration-700">
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Automation Blueprint</h3>
+                        <p class="text-slate-400 max-w-xs mx-auto">Your custom workflow diagram will appear here.</p>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div id="blueprint-loading" class="hidden flex-col items-center gap-6 z-10">
+                        <div class="relative">
+                            <div class="w-20 h-20 rounded-full border-4 border-indigo-500/30 border-t-indigo-500 animate-spin"></div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <i data-lucide="sparkles" class="w-6 h-6 text-indigo-400 animate-pulse"></i>
+                            </div>
+                        </div>
+                        <div class="text-center space-y-2">
+                            <p class="text-indigo-300 font-mono text-sm animate-pulse">Analyzing Workflow...</p>
+                        </div>
+                    </div>
+
+                    <!-- Result State -->
+                    <div id="blueprint-result" class="hidden w-full max-w-sm z-10 flex-col items-center">
+                        <!-- Content Injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points (Why leads don't convert) - Updated Layout -->
+    <section id="problem" class="relative my-8 py-20 px-4 md:px-8 lg:px-16">
+        <div class="absolute inset-0 bg-slate-50/50 rounded-[3rem] -z-10 mx-4 md:mx-0"></div>
+        <div class="text-center max-w-3xl mx-auto mb-16">
+            <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-purple-50 text-purple-600 border-purple-100">Pain Points</span>
+            <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+                Why leads don't convert<br/> <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">(even when demand exists)</span>
+            </h2>
+            <p class="text-xl text-slate-800 font-bold leading-relaxed mb-2">
+                It’s rarely a traffic problem. It’s a system problem.
+            </p>
+        </div>
+
+        <div class="max-w-4xl mx-auto space-y-4">
+            <!-- Signals List -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-red-200 transition-colors group">
+                    <div class="w-10 h-10 bg-red-50 text-red-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-red-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="x-circle" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Missed Ad Leads</h4>
+                        <p class="text-sm text-slate-500 font-medium">Money burned on clicks with no follow-up.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-orange-200 transition-colors group">
+                    <div class="w-10 h-10 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-orange-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="clock" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Slow Response</h4>
+                        <p class="text-sm text-slate-500 font-medium">Lead already gone to a competitor.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+                
+                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-blue-200 transition-colors group">
+                    <div class="w-10 h-10 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-blue-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="user-x" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">Manual Qualification</h4>
+                        <p class="text-sm text-slate-500 font-medium">Sales time wasted on bad fit leads.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+
+                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-purple-200 transition-colors group">
+                    <div class="w-10 h-10 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center shrink-0 group-hover:bg-purple-100 group-hover:scale-110 transition-all">
+                        <i data-lucide="calendar-off" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-slate-900">No-Show Appointments</h4>
+                        <p class="text-sm text-slate-500 font-medium">Empty calendars and lost momentum.</p>
+                    </div>
+                    <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+                </div>
+            </div>
+            
+            <!-- Final big card -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-4 hover:border-slate-300 transition-colors group">
+                <div class="w-10 h-10 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center shrink-0 group-hover:bg-slate-200 group-hover:scale-110 transition-all">
+                    <i data-lucide="scatter-chart" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-slate-900">Scattered Data</h4>
+                    <p class="text-sm text-slate-500 font-medium">Leads fall through cracks between tools.</p>
+                </div>
+                <i data-lucide="arrow-right" class="ml-auto w-5 h-5 text-slate-300"></i>
+            </div>
+            
+            <div class="text-center pt-8">
+                 <button onclick="document.getElementById('system-breakdown').scrollIntoView({behavior: 'smooth'})" class="text-indigo-600 font-bold hover:text-indigo-800 transition-colors flex items-center justify-center gap-2 group">
+                    See how the system fixes this <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stats -->
+    <section id="results" class="bg-slate-900 rounded-[3rem] my-8 mx-2 md:mx-6 text-white py-20 relative overflow-hidden">
+        <!-- Abstract Pattern -->
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        
+        <div class="relative z-10 grid md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800">
+           <div class="p-4">
+             <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-2">30+</div>
+             <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Hours Saved / Week</p>
+           </div>
+           <div class="p-4">
+             <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-2">0%</div>
+             <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Error Rate</p>
+           </div>
+           <div class="p-4">
+             <div class="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 mb-2">10x</div>
+             <p class="text-slate-400 font-bold uppercase text-xs tracking-widest">Faster Response</p>
+           </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+        <div class="text-center mb-12">
+           <span class="inline-block py-1.5 px-4 rounded-full text-xs font-extrabold tracking-wider uppercase mb-6 border shadow-sm bg-indigo-50 text-indigo-600 border-indigo-100">Testimonials</span>
+           <h2 class="text-4xl font-black text-slate-900">Operators trust FinalClick</h2>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-6">
+           <div class="p-8 bg-white border border-slate-100 shadow-lg shadow-slate-100 rounded-2xl relative flex flex-col">
+             <div class="text-indigo-200 absolute top-6 right-8 opacity-50"><i data-lucide="message-square" class="w-12 h-12"></i></div>
+             <p class="text-lg text-slate-700 font-medium mb-8 relative z-10 flex-1">"I didn't realize how much time I spent just moving files around. FinalClick built an agent that handles our entire invoicing process. It feels like magic."</p>
+             <div class="flex items-center gap-4">
+               <img 
+                 src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=100&h=100" 
+                 alt="Alex Chen" 
+                 class="w-12 h-12 rounded-full object-cover border-2 border-indigo-100"
+               />
+               <div>
+                 <div class="font-bold text-slate-900">Alex Chen</div>
+                 <div class="text-xs text-slate-500 font-bold uppercase">COO, TechFlow</div>
+               </div>
+             </div>
+           </div>
+           <div class="p-8 bg-white border border-slate-100 shadow-lg shadow-slate-100 rounded-2xl relative flex flex-col">
+             <div class="text-indigo-200 absolute top-6 right-8 opacity-50"><i data-lucide="message-square" class="w-12 h-12"></i></div>
+             <p class="text-lg text-slate-700 font-medium mb-8 relative z-10 flex-1">"We used to hire VAs for lead qualification. FinalClick's AI agent does it better, faster, and 24/7. It's an absolute game changer for our margins."</p>
+             <div class="flex items-center gap-4">
+               <img 
+                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=100&h=100" 
+                 alt="Sarah Miller" 
+                 class="w-12 h-12 rounded-full object-cover border-2 border-indigo-100"
+               />
+               <div>
+                 <div class="font-bold text-slate-900">Sarah Miller</div>
+                 <div class="text-xs text-slate-500 font-bold uppercase">Founder, ScaleUp</div>
+               </div>
+             </div>
+           </div>
+        </div>
+    </section>
+
+    <!-- Closing CTA Section -->
+    <section id="contact" class="pb-32 pt-20">
+        <div class="relative rounded-[2.5rem] bg-slate-900 overflow-hidden px-8 py-20 md:p-24 text-center shadow-2xl shadow-indigo-200 mx-4 md:mx-8">
+           <!-- Decorative Gradients -->
+           <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/30 rounded-full blur-[100px] pointer-events-none"></div>
+           
+           <div class="relative z-10 max-w-3xl mx-auto space-y-8">
+             <h2 class="text-4xl md:text-6xl font-black text-white tracking-tight">
+               Stop losing leads to manual chaos.
+             </h2>
+             <p class="text-xl text-indigo-100/80 font-medium">
+               Book a call to review your current lead flow.
+             </p>
+             <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+               <button onclick="window.open('https://cal.com', '_blank')" class="px-10 py-5 bg-white text-indigo-900 rounded-xl font-bold text-lg hover:bg-gradient-to-r hover:from-indigo-600 hover:to-violet-600 hover:text-white hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2">
+                 Book a Call <i data-lucide="arrow-right" class="w-5 h-5"></i>
+               </button>
+             </div>
+             <p class="text-sm text-indigo-400 font-bold tracking-wide uppercase pt-6">
+               100% Custom Built • No Generic Templates
+             </p>
+           </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-900 pt-20 pb-10 px-6 text-slate-400">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-4 gap-12 mb-16">
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="flex items-center gap-2 text-white">
+                        <div class="relative w-8 h-8 flex items-center justify-center bg-indigo-600 rounded-lg">
+                            <i data-lucide="zap" class="w-4 h-4 text-white fill-current"></i>
+                        </div>
+                        <span class="font-black text-2xl tracking-tight">FinalClick</span>
+                    </div>
+                    <p class="text-sm leading-relaxed">We engineer custom AI Lead Management Systems that turn traffic into revenue.</p>
+                    <div class="flex gap-4 mt-4">
+  <a href="https://www.instagram.com/finalclick.online" target="_blank" rel="noopener"
+     class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all">
+    <i data-lucide="instagram" class="w-4 h-4"></i>
+  </a>
+
+  <a href="https://www.facebook.com/people/FinalClick-AI-Automation/61585892012595/" target="_blank" rel="noopener"
+     class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all">
+    <i data-lucide="facebook" class="w-4 h-4"></i>
+  </a>
+
+  <a href="https://www.linkedin.com/company/110784968/" target="_blank" rel="noopener"
+     class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all">
+    <i data-lucide="linkedin" class="w-4 h-4"></i>
+  </a>
+
+  <a href="mailto:support@finalclick.online"
+     class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all">
+    <i data-lucide="mail" class="w-4 h-4"></i>
+  </a>
+</div>                
+
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-slate-900 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all"><i data-lucide="mail" class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-1">
+                    <h4 class="text-white font-bold mb-6">Our Solutions</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Lead Capture & Routing</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">AI Lead Qualification</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Automated Follow-Ups</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Appointment Booking</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">CRM & Pipeline Setup</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <h4 class="text-white font-bold mb-6">Company</h4>
+                    <ul class="space-y-4 text-sm">
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Case Studies</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-indigo-400 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <h4 class="text-white font-bold mb-6">Ready to scale?</h4>
+                    <p class="text-xs mb-4">Get a free breakdown of your manual tasks.</p>
+                    <button onclick="window.open('https://cal.com', '_blank')" class="w-full py-3 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-500 transition-all flex items-center justify-center gap-2">
+                        Book Audit <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium pt-8 border-t border-slate-900">
+    <div>©️ 2025 FinalClick Automation. All rights reserved.</div>
+
+    <div class="flex gap-4">
+        <a href="/privacy" class="hover:text-indigo-400 transition-colors">
+            Privacy Policy
+        </a>
+        <span>|</span>
+        <a href="/terms" class="hover:text-indigo-400 transition-colors">
+            Terms of Service
+        </a>
+    </div>
+</div>
+    </footer>
+
+    <!-- Logic Script -->
+
+    
+    <script
+      id="retell-widget"
+      src="https://dashboard.retellai.com/retell-widget.js"
+      type="module"
+      data-public-key="public_key_47dab3c2eded26b0a7877"
+      data-agent-id="agent_51b3a19c3f2a71265e8060af56"
+      data-title="Chat with us"
+      data-agent-version="1"
+      data-bot-name="Click_AI"
+      data-popup-message="Waiting to reduce your work"
+      data-show-ai-popup="true"
+      data-show-ai-popup-time="3"
+      data-auto-open="false"
+      data-dynamic='{"key": "value"}'
+    ></script>
+
+    <script>
+        
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        }
+        
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+
+        // --- Hero Visualizer Logic ---
+        const pipelineContainer = document.getElementById('hero-pipeline-container');
+        const pipelineProgress = document.getElementById('pipeline-progress');
+        const nodes = [
+            { label: "New Lead", icon: "user-plus", color: "bg-blue-500" },
+            { label: "AI Qualify", icon: "bot", color: "bg-purple-500" },
+            { label: "Auto Follow-up", icon: "message-circle", color: "bg-indigo-500" },
+            { label: "Booked", icon: "calendar-check", color: "bg-green-500" }
+        ];
+        
+        let currentPipelineStep = 0;
+
+        // Create Nodes
+        nodes.forEach((node, i) => {
+            const nodeDiv = document.createElement('div');
+            nodeDiv.className = `flex items-center gap-4 mb-4 last:mb-0 transition-all duration-500 opacity-40 translate-x-2`;
+            nodeDiv.id = `node-${i}`;
+            
+            // Checking logic to set initial color if it's the first step
+            const isCompleted = false;
+            
+            nodeDiv.innerHTML = `
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-500 bg-slate-200" id="node-icon-${i}">
+                <i data-lucide="${node.icon}" class="w-5 h-5"></i>
+              </div>
+              <div class="px-4 py-3 rounded-lg border shadow-sm flex-1 transition-all duration-500 bg-white border-slate-100" id="node-card-${i}">
+                 <div class="flex justify-between items-center">
+                   <div class="text-xs font-bold text-slate-900" id="node-text-${i}">${node.label}</div>
+                   <div id="node-check-${i}" class="hidden text-green-600"><i data-lucide="check" class="w-3.5 h-3.5"></i></div>
+                 </div>
+                 <div class="text-[10px] font-mono text-slate-400" id="node-status-${i}">Waiting</div>
+              </div>
+            `;
+            pipelineContainer.appendChild(nodeDiv);
+        });
+        lucide.createIcons(); // Refresh icons for new nodes
+
+        setInterval(() => {
+            currentPipelineStep = (currentPipelineStep + 1) % 4;
+            
+            // Update Line Height
+            pipelineProgress.style.height = `${(currentPipelineStep + 1) * 25}%`;
+
+            nodes.forEach((node, i) => {
+                const nodeDiv = document.getElementById(`node-${i}`);
+                const iconDiv = document.getElementById(`node-icon-${i}`);
+                const cardDiv = document.getElementById(`node-card-${i}`);
+                const textDiv = document.getElementById(`node-text-${i}`);
+                const statusDiv = document.getElementById(`node-status-${i}`);
+                const checkDiv = document.getElementById(`node-check-${i}`);
+                
+                const isActive = currentPipelineStep >= i;
+                const isLast = i === nodes.length - 1;
+                const isCompleted = isLast && isActive;
+
+                // Active State
+                if (isActive) {
+                    nodeDiv.classList.remove('opacity-40', 'translate-x-2');
+                    nodeDiv.classList.add('opacity-100', 'translate-x-0');
+                    iconDiv.className = `w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-500 ${node.color}`;
+                } else {
+                    nodeDiv.classList.add('opacity-40', 'translate-x-2');
+                    nodeDiv.classList.remove('opacity-100', 'translate-x-0');
+                    iconDiv.className = `w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg transition-all duration-500 bg-slate-200`;
+                }
+
+                // Completion State (Green Box)
+                if (isCompleted) {
+                    cardDiv.className = "px-4 py-3 rounded-lg border shadow-sm flex-1 transition-all duration-500 bg-green-50 border-green-200 shadow-green-100";
+                    textDiv.className = "text-xs font-bold text-green-800";
+                    statusDiv.className = "text-[10px] font-mono text-green-600";
+                    checkDiv.classList.remove('hidden');
+                } else {
+                    cardDiv.className = "px-4 py-3 rounded-lg border shadow-sm flex-1 transition-all duration-500 bg-white border-slate-100";
+                    textDiv.className = "text-xs font-bold text-slate-900";
+                    statusDiv.className = "text-[10px] font-mono text-slate-400";
+                    checkDiv.classList.add('hidden');
+                }
+
+                // Text Update
+                if (currentPipelineStep === i) {
+                    statusDiv.textContent = isLast ? "Success" : "Processing...";
+                } else if (currentPipelineStep > i) {
+                    statusDiv.textContent = "Completed";
+                } else {
+                    statusDiv.textContent = "Waiting";
+                }
+            });
+        }, 2000);
+
+        // --- NEW SYSTEM PIPELINE ANIMATION LOGIC ---
+        const systemSteps = [
+            { title: "Lead Captured", icon: "magnet", desc: "Forms, Ads, DMs" },
+            { title: "Instant Routing", icon: "route", desc: "CRM Injection" },
+            { title: "AI Qualification", icon: "filter", desc: "Score & Filter" },
+            { title: "Omnichannel Follow-up", icon: "message-circle", desc: "Email, SMS, WhatsApp" },
+            { title: "Booked Meeting", icon: "calendar-check", desc: "Calendar Sync" }
+        ];
+
+        const systemPipelineContainer = document.getElementById('system-pipeline-list');
+        
+        // Add progress line element
+        const progressLine = document.createElement('div');
+        progressLine.className = "absolute left-8 top-8 w-0.5 bg-indigo-600 -z-10 md:left-1/2 md:-ml-0.5 transition-all duration-500 ease-in-out";
+        progressLine.style.height = "0%";
+        systemPipelineContainer.appendChild(progressLine);
+
+        systemSteps.forEach((step, i) => {
+            const stepDiv = document.createElement('div');
+            stepDiv.id = `sys-step-${i}`;
+            stepDiv.className = "pipeline-step relative flex items-center gap-6 p-4 rounded-xl mb-6 md:ml-12 md:max-w-2xl mx-auto bg-white border border-slate-50 shadow-sm cursor-pointer";
+            
+            // Add click/hover listeners
+            stepDiv.addEventListener('mouseenter', () => {
+                isPaused = true;
+                setActiveStep(i);
+            });
+            stepDiv.addEventListener('mouseleave', () => {
+                isPaused = false;
+            });
+            
+            stepDiv.innerHTML = `
+                <div class="relative z-10 w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center text-slate-400 transition-all duration-500 step-icon" id="sys-icon-${i}">
+                    <i data-lucide="${step.icon}" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg text-slate-900 transition-colors duration-500 step-title" id="sys-title-${i}">${step.title}</h3>
+                    <p class="text-sm text-slate-500">${step.desc}</p>
+                </div>
+            `;
+            systemPipelineContainer.appendChild(stepDiv);
+        });
+        lucide.createIcons();
+
+        let currentSystemStep = 0;
+        let isPaused = false;
+
+        function setActiveStep(index) {
+            currentSystemStep = index;
+            // Update Progress Line
+            const progressPercentage = (index / (systemSteps.length - 1)) * 100;
+            progressLine.style.height = `${progressPercentage}%`;
+
+            systemSteps.forEach((_, i) => {
+                const stepEl = document.getElementById(`sys-step-${i}`);
+                if (i === index) {
+                    stepEl.classList.add('active');
+                } else {
+                    stepEl.classList.remove('active');
+                }
+            });
+        }
+        
+        setInterval(() => {
+            if (!isPaused) {
+                setActiveStep(currentSystemStep);
+                currentSystemStep = (currentSystemStep + 1) % systemSteps.length;
+            }
+        }, 2000);
+
+        // --- Blueprint Generator Logic ---
+        async function generateBlueprint() {
+            const input = document.getElementById('blueprint-input').value;
+            if (!input.trim()) return;
+
+            const btn = document.getElementById('blueprint-btn');
+            const btnText = document.getElementById('blueprint-btn-text');
+            const visualizerEmpty = document.getElementById('blueprint-empty');
+            const visualizerLoading = document.getElementById('blueprint-loading');
+            const visualizerResult = document.getElementById('blueprint-result');
+            const errorText = document.getElementById('blueprint-error');
+
+            // Set Loading State
+            btn.disabled = true;
+            btnText.textContent = "Architecting...";
+            visualizerEmpty.classList.add('hidden');
+            visualizerResult.classList.add('hidden');
+            visualizerLoading.classList.remove('hidden');
+            visualizerLoading.classList.add('flex');
+            errorText.classList.add('hidden');
+
+            const apiKey = ""; // You must add your API key if you want this to work in the raw HTML file
+            
+            setTimeout(() => {
+                // Simulating Success Response
+                const mockResult = {
+                    timeSaved: "8-12 Hours/Week",
+                    steps: [
+                        { tool: "Facebook Ad", action: "Lead Captured", icon: "facebook" },
+                        { tool: "AI Agent", action: "Qualify & Score", icon: "bot" },
+                        { tool: "WhatsApp", action: "Instant Follow-up", icon: "message-circle" },
+                        { tool: "CRM", action: "Booked & Synced", icon: "check-circle" }
+                    ]
+                };
+
+                // Render Result
+                visualizerResult.innerHTML = `
+                    <div class="mb-8 bg-green-500/20 border border-green-500/30 text-green-300 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-[0_0_20px_rgba(34,197,94,0.2)]">
+                        <i data-lucide="clock" class="w-3.5 h-3.5"></i> ${mockResult.timeSaved} Saved
+                    </div>
+                    <div class="relative w-full flex flex-col items-center gap-6">
+                        <div class="absolute top-6 bottom-6 left-8 md:left-1/2 w-0.5 bg-gradient-to-b from-indigo-500/0 via-indigo-500 to-indigo-500/0 md:-translate-x-1/2"></div>
+                        ${mockResult.steps.map((step, i) => `
+                            <div class="relative z-10 w-full flex items-center gap-4 group animate-slide-up" style="animation-delay: ${i * 0.15}s">
+                                <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 border-2 shadow-lg transition-all duration-300 z-10 bg-slate-800 border-indigo-500/50 text-indigo-400 shadow-indigo-500/20">
+                                    <i data-lucide="${step.icon}" class="w-5 h-5"></i>
+                                </div>
+                                <div class="flex-1 bg-slate-900/80 backdrop-blur-md border border-slate-700 p-4 rounded-xl hover:border-indigo-500/50 transition-colors">
+                                    <div class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mb-1 flex justify-between">
+                                        ${step.tool} <span class="text-slate-600">STEP 0${i + 1}</span>
+                                    </div>
+                                    <div class="text-sm font-bold text-white leading-snug">${step.action}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-10 text-center space-y-4 animate-slide-up" style="animation-delay: 0.7s">
+                        <h4 class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-indigo-400">
+                            Automates repetitive work <br/> and saves 10x time.
+                        </h4>
+                    </div>
+                `;
+                
+                lucide.createIcons();
+                visualizerLoading.classList.add('hidden');
+                visualizerLoading.classList.remove('flex');
+                visualizerResult.classList.remove('hidden');
+                visualizerResult.classList.add('flex');
+                
+                btn.disabled = false;
+                btnText.textContent = "Generate Blueprint";
+
+            }, 1500); 
+        }
+
+    </script>
+</body>
+</html>
